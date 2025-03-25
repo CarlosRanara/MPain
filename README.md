@@ -1,151 +1,134 @@
-Enrollment System
+📌 Enrollment System
 
-Overview
+📖 Overview
 
-This project is a C-based Enrollment System developed for Term 2 of the 2024-25 academic year. It enables students to enroll in courses, faculty members to manage their teaching loads, and an academic assistant to oversee the entire enrollment process. The system handles prerequisite validation, automatic room and schedule assignment, and structured file management.
+This Enrollment System is a simple yet functional program designed for student course registration, faculty course selection, prerequisite validation, and automated room scheduling. The system supports three roles:
 
-Features
+Student: Enroll in courses, manage enrolled subjects, and generate an Enrolment Assessment Form (EAF).
 
-1. Student Module
+Faculty: Choose course loads while maintaining unit restrictions and review student enrollments.
 
-Maximum of 20 students.
+Academic Assistant: Manage students, faculty, courses, prerequisites, schedules, and room assignments.
 
-Enroll in courses (system ensures prerequisites are met).
+🚀 Features
 
-Modify enrollment (add, edit, delete courses).
+✅ Structured Enrollment Process✅ Faculty Course Load Management✅ Prerequisite Verification✅ Automated Room and Schedule Assignment✅ Comprehensive File Handling (Text & Optional Binary Storage)✅ Student and Faculty Reports Generation✅ User-friendly CLI Interface
 
-Generate Enrollment Assessment Form (EAF):
+🛠️ System Requirements
 
-Displays on screen.
+Compiler: GCC with C99 standard (gcc -Wall -std=c99)
 
-Saves in a properly formatted text file (students.txt).
+Development Environment: Linux/macOS/Windows with a terminal
 
-2. Faculty Module
+Files Used:
 
-Maximum of 20 faculty members.
+students.txt – Student details & enrolled courses
 
-Select teaching loads (ensuring a maximum of 12 units).
+faculty.txt – Faculty information & selected course loads
 
-Modify assigned courses (add, edit, delete courses).
+courses.txt – Course offerings
 
-View assigned courses and teaching load status.
+prerequisite.txt – Course prerequisite mapping
 
-Generate reports:
+rooms.txt – Room and schedule assignments
 
-Faculty course load report.
+📂 File Structure
 
-Student list per course.
+📁 Enrollment System
+ ├── 📄 main.c        # Entry point of the program
+ ├── 📄 student.c     # Student-related functions
+ ├── 📄 faculty.c     # Faculty-related functions
+ ├── 📄 assistant.c   # Academic assistant functions
+ ├── 📄 file_handler.c# File reading/writing utilities
+ ├── 📄 utils.c       # Helper functions
+ ├── 📄 README.md     # Project documentation (you are here!)
+ ├── 📄 students.txt  # Student records
+ ├── 📄 faculty.txt   # Faculty records
+ ├── 📄 courses.txt   # Course offerings
+ ├── 📄 prerequisite.txt # Prerequisite courses
+ ├── 📄 rooms.txt     # Room assignments
 
-Data stored in faculty.txt.
+🏗️ Installation & Compilation
 
-3. Academic Assistant Module
+Clone the repository and navigate to the project directory:
 
-Manage student and faculty records (add, edit, delete entries).
+git clone <repo-link>
+cd Enrollment-System
 
-Manage courses and prerequisites.
+Compile the program:
 
-Schedule courses and assign rooms.
+gcc -Wall -std=c99 main.c student.c faculty.c assistant.c file_handler.c utils.c -o enrollment_system
 
-Generate reports and maintain structured files:
+Run the program:
 
-students.txt (Student data and EAFs)
+./enrollment_system
 
-faculty.txt (Faculty data and course loads)
+🎯 Usage Guide
 
-courses.txt (Available courses and schedules)
+Upon running the program, users are presented with a Main Menu:
 
-prerequisite.txt (Course prerequisite mapping)
+1. Student
+2. Faculty
+3. Academic Assistant
+4. Exit
 
-rooms.txt (Room assignments and schedules)
+Each role has specific actions:
 
-Data Structures
+Students can enroll in courses, edit/delete enrollments, and generate an EAF.
 
-The system follows a structured approach with arrays of structs to manage:
+Faculty can manage course loads, check loading status, and print assigned students.
 
-Students (max 20): Name, ID, program, enrolled courses, past courses.
+Academic Assistant can add/edit/delete students, faculty, courses, prerequisites, and room assignments.
 
-Faculty (max 20): ID, department, deloading units, assigned courses.
+📌 Code Standards & Restrictions
 
-Courses: Code, section, units, schedule, room, faculty.
+To ensure code quality and maintainability, the following rules are enforced: ❌ No global variables❌ No goto, break (except in switch), return for early exits, or exit()❌ No fgets(), strcspn(), or memset()✅ Strict error handling and structured file operations✅ Proper function documentation and modular design
 
-File Handling
+📊 Sample Output
 
-The system supports text-based storage for structured data management. Bonus points available for implementing binary file storage.
+Main Menu:
+1. Student
+2. Faculty
+3. Academic Assistant
+Answer: 1
 
-File Formats
+Student Menu:
+Enter Student ID: 123456
+1. Enroll Courses
+2. Print EAF
+3. Exit
+Answer: 1
 
-students.txt
+Enrolled Courses:
+---------------------------------
+| Course   | Section | Units | Time |
+---------------------------------
+| CCPROG2  | S12A    | 3     | TH 12:45-14:15 |
+---------------------------------
 
-STUDENT 1
-<name> <ID>
-<course 1 taken>
-<course 2 taken>
-...
-EAF
-<course code> <section> <units> <day> <time> <room> <faculty>
-...
+🏆 Bonus Features
 
-faculty.txt
+Binary file support for improved performance
 
-FACULTY 1
-<name> <ID> <department> <deloading units>
-<course code> <section>
-...
+Advanced error handling mechanisms
 
-courses.txt
+More detailed student/faculty reports
 
-<course code> <section> <units> <day> <time> <room> <faculty>
+⏳ Deadline & Submission
 
-prerequisite.txt
+📅 Final Submission: March 31, 2025, 07:30 AM📌 Submission via: AnimoSpace📌 Required Deliverables:
 
-<prerequisite course> <course>
+Source Code (.c & .h files)
 
-rooms.txt
+Test Script (Formatted in a table with test cases)
 
-<room number> <day> <time> <course code> <section> <occupancy>
+Sample Output Files (Generated from program)
 
-Constraints
+README Documentation
 
-No global variables.
+✨ Credits
 
-No goto, break (except in switch), return (for early exits), exit(), fgets(), strcspn(), memset().
+Developed by: [Your Name]DLSU ID: [Your ID Number]
 
-Strict error handling for fscanf() return values.
+"Programming isn't about what you know; it's about what you can figure out." – Chris Pine
 
-Formatted file storage with consistent parsing structure.
-
-MW/TH 1.5-hour schedule format for course assignments.
-
-Compilation with GCC using -Wall -std=C99 to ensure warnings are resolved.
-
-Implementation Plan
-
-Load data from files into arrays of structs.
-
-Implement main menu and submenus.
-
-Enable user operations (enrollment, faculty selection, course management, etc.).
-
-Save updated data back to structured files.
-
-Thoroughly test and debug.
-
-Optional: Implement binary file storage for bonus points.
-
-Submission Guidelines
-
-Final deadline: March 31, 2025, 07:30 AM (AnimoSpace submission).
-
-Deliverables:
-
-Source code (.c files) with proper documentation.
-
-Test scripts (.txt or table format).
-
-Sample exported text files (students.txt, faculty.txt, etc.).
-
-Demo presentation required (must compile and run with gcc -Wall -std=C99).
-
-Acknowledgment
-
-This project follows the academic integrity policy. Any form of plagiarism or code-sharing outside the group is strictly prohibited.
