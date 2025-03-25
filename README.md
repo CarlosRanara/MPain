@@ -99,13 +99,6 @@ Enter Student ID: 123456
 3. Exit
 Answer: 1
 
-Enrolled Courses:
----------------------------------
-| Course   | Section | Units | Time |
----------------------------------
-| CCPROG2  | S12A    | 3     | TH 12:45-14:15 |
----------------------------------
-
 🏆 Bonus Features
 
 Binary file support for improved performance
@@ -124,11 +117,4 @@ Test Script (Formatted in a table with test cases)
 
 Sample Output Files (Generated from program)
 
-README Documentation
-
-✨ Credits
-
-Developed by: [Your Name]DLSU ID: [Your ID Number]
-
-"Programming isn't about what you know; it's about what you can figure out." – Chris Pine
 
