@@ -113,7 +113,8 @@ void newFacultyInfo(databaseType *db)
     printf("Faculty information added successfully!\n");
 }
 
-void addCourse(databaseType *db) {
+void addCourse(databaseType *db) 
+{
     if (db->course_count >= MAX_COURSES) {
         fprintf(stderr, "ERROR: Maximum course capacity reached.\n");
         return;
@@ -154,12 +155,13 @@ void addCourse(databaseType *db) {
     db->course_count++;
     
     fprintf(course_fp, "%s %s %d %s %s %s %s\n", new_course.code, new_course.section, new_course.units, new_course.day, new_course.time, new_course.room, new_course.assigned_faculty);
-    
+
     fclose(course_fp);
     printf("Course added successfully!\n");
 }
 
-void addPrerequisites(databaseType *db, String10 course_code) {
+void addPrerequisites(databaseType *db, String10 course_code) 
+{
     FILE *prereq_fp = fopen(PREREQ_FILE, "a");
     if (!prereq_fp) {
         fprintf(stderr, "ERROR: Could not open %s for writing.\n", PREREQ_FILE);
@@ -191,7 +193,8 @@ void addPrerequisites(databaseType *db, String10 course_code) {
     }
 }
 
-void newCoursePrereq(databaseType *db) {
+void newCoursePrereq(databaseType *db) 
+{
     char choice;
     addCourse(db);
     printf("Does the course have a prerequisite? (y/n): ");
@@ -205,7 +208,8 @@ void newCoursePrereq(databaseType *db) {
     }
 }
 
-void addRoom(databaseType *db) {
+void addRoom(databaseType *db) 
+{
     if (db->room_count >= MAX_ROOMS) {
         fprintf(stderr, "ERROR: Maximum room capacity reached.\n");
         return;
@@ -240,7 +244,8 @@ void addRoom(databaseType *db) {
     printf("Room added successfully!\n");
 }
 
-void displayFacultyList() {
+void displayFacultyList() 
+{
     FILE *fp = fopen(FACULTY_FILE, "r");
     if (!fp) {
         fprintf(stderr, "ERROR: Could not open %s for reading.\n", FACULTY_FILE);

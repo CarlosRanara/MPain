@@ -15,7 +15,7 @@
 #define ROOMS_FILE "rooms.txt"
 
 
-#define MAX_UNTIS (12)
+#define MAX_UNITS (12)
 
 /**
  * Type declarations
