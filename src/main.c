@@ -7,7 +7,7 @@
 int main()
 {
     int exit_flag;
-    databaseType db;
+    databaseType db = {0};
 
     exit_flag = 0;
 
