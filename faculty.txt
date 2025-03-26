@@ -1,2 +1,0 @@
-FACULTY 1
-Xian_Ranara 123456 EE
