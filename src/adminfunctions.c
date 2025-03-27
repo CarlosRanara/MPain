@@ -25,222 +25,213 @@ void assistantMenu(databaseType *db, int *exit_main)
     }
 }
 
-void newStudentInfo(databaseType *db) 
-{
+void newStudentInfo(databaseType *db) {
     if (db->student_count >= MAX_STUDENTS) {
         fprintf(stderr, "ERROR: Maximum student capacity reached.\n");
         return;
     }
-    
-    studentType new_student;
+
     FILE *fp = fopen(STUDENT_FILE, "a");
     if (!fp) {
         fprintf(stderr, "ERROR: Could not open %s for writing.\n", STUDENT_FILE);
         return;
     }
-    
+
+    char id[11], name[31], program[11];
     printf("Enter student ID: ");
-    scanf("%10s", new_student.id);
+    scanf("%10s", id);
+    getchar(); // Consume newline
+
     printf("Enter name: ");
-    getchar(); // To consume any leftover newline character
-    fgets(new_student.name, sizeof(new_student.name), stdin);
-    new_student.name[strcspn(new_student.name, "\n")] = '\0'; // Remove newline
-    
-    printf("Enter course: ");
-    scanf("%10s", new_student.program);
-    
-    new_student.enrolled_count = 0;
-    char temp_course[11];
-    printf("Enter subjects taken (Type Exit to stop the entry)\n");
+    fgets(name, sizeof(name), stdin);
+    name[strcspn(name, "\n")] = '\0'; // Remove newline
+
+    printf("Enter program: ");
+    scanf("%10s", program);
+
+    // Writing student details to the file
+    fprintf(fp, "STUDENT %d\n%s %s\n", db->student_count + 1, name, id);
+
+    // Handling subjects taken
+    printf("Enter subjects taken (Type 'Exit' to stop):\n");
+    char course[11];
     while (1) {
         printf("Enter course taken: ");
-        scanf("%10s", temp_course);
-        if (strcmp(temp_course, "Exit") == 0) {
+        scanf("%10s", course);
+        if (strcmp(course, "Exit") == 0) {
             break;
         }
-        strcpy(new_student.enrolled_courses[new_student.enrolled_count], temp_course);
-        new_student.enrolled_count++;
+        fprintf(fp, "%s\n", course);
     }
-    
-    db->students[db->student_count] = new_student;
-    db->student_count++;
-    
-    fprintf(fp, "STUDENT %d\n", db->student_count);
-    fprintf(fp, "%s %s\n", new_student.name, new_student.id);
-    
-    for (int i = 0; i < new_student.enrolled_count; i++) {
-        fprintf(fp, "%s\n", new_student.enrolled_courses[i]);
-    }
-    
+
     fprintf(fp, ":\nEAF\n");
- 
+
+    db->student_count++;
     fclose(fp);
     printf("Student information added successfully!\n");
 }
 
-void newFacultyInfo(databaseType *db) 
-{
+void newFacultyInfo(databaseType *db) {
     if (db->faculty_count >= MAX_FACULTY) {
         fprintf(stderr, "ERROR: Maximum faculty capacity reached.\n");
         return;
     }
-    
+
     FILE *fp = fopen(FACULTY_FILE, "a");
     if (!fp) {
         fprintf(stderr, "ERROR: Could not open %s for writing.\n", FACULTY_FILE);
         return;
     }
-    
-    facultyType new_faculty;
+
+    char id[11], name[31], department[31];
+    int deloading_units;
+
     printf("Enter faculty ID: ");
-    scanf("%10s", new_faculty.id);
+    scanf("%10s", id);
+    getchar(); // Consume newline
+
     printf("Enter name: ");
-    getchar();
-    fgets(new_faculty.name, sizeof(new_faculty.name), stdin);
-    new_faculty.name[strcspn(new_faculty.name, "\n")] = '\0';
+    fgets(name, sizeof(name), stdin);
+    name[strcspn(name, "\n")] = '\0'; // Remove newline
+
     printf("Enter department: ");
-    scanf("%30s", new_faculty.department);
- 
-    
-   
-    db->faculty[db->faculty_count] = new_faculty;
+    fgets(department, sizeof(department), stdin);
+    department[strcspn(department, "\n")] = '\0';
+
+    printf("Enter deloading units: ");
+    scanf("%d", &deloading_units);
+
+    // Writing faculty details to file
+    fprintf(fp, "FACULTY %d\n%s %s %s %d\n", db->faculty_count + 1, name, id, department, deloading_units);
+
     db->faculty_count++;
-    
-    fprintf(fp, "FACULTY %d\n", db->faculty_count);
-    fprintf(fp, "%s %s %s\n", new_faculty.name, new_faculty.id, new_faculty.department);
-     
     fclose(fp);
     printf("Faculty information added successfully!\n");
 }
 
-void addCourse(databaseType *db) 
-{
+
+void addCourse(databaseType *db) {
     if (db->course_count >= MAX_COURSES) {
         fprintf(stderr, "ERROR: Maximum course capacity reached.\n");
         return;
     }
-    
-    FILE *course_fp = fopen(COURSES_FILE, "a");
-    if (!course_fp) {
+
+    FILE *fp = fopen(COURSES_FILE, "a");
+    if (!fp) {
         fprintf(stderr, "ERROR: Could not open %s for writing.\n", COURSES_FILE);
         return;
     }
-    
-    courseType new_course;
+
+    char code[11], section[11], day[11], time[31], room[11], faculty[11];
+    int units;
+
     printf("Enter course code: ");
-    scanf("%10s", new_course.code);
+    scanf("%10s", code);
     printf("Enter section: ");
-    scanf("%10s", new_course.section);
+    scanf("%10s", section);
     printf("Enter units: ");
-    scanf("%d", &new_course.units);
-    getchar();
-
+    scanf("%d", &units);
     printf("Enter day: ");
-    scanf("%10s", new_course.day);
+    scanf("%10s", day);
     getchar();
-
+    
     printf("Enter time: ");
-    fgets(new_course.time, sizeof(new_course.time), stdin);
-    new_course.time[strcspn(new_course.time, "\n")] = 0;
+    fgets(time, sizeof(time), stdin);
+    time[strcspn(time, "\n")] = '\0';
 
     printf("Enter room: ");
-    fgets(new_course.room, sizeof(new_course.room), stdin);
-    new_course.room[strcspn(new_course.room, "\n")] = 0;
-
+    scanf("%10s", room);
     printf("Enter faculty: ");
-    fgets(new_course.assigned_faculty, sizeof(new_course.assigned_faculty), stdin);
-    new_course.assigned_faculty[strcspn(new_course.assigned_faculty, "\n")] = 0;
+    scanf("%10s", faculty);
 
-    db->courses[db->course_count] = new_course;
+    // Writing course details to file
+    fprintf(fp, "%s %s %d %s %s %s %s\n", code, section, units, day, time, room, faculty);
     db->course_count++;
-    
-    fprintf(course_fp, "%s %s %d %s %s %s %s\n", new_course.code, new_course.section, new_course.units, new_course.day, new_course.time, new_course.room, new_course.assigned_faculty);
 
-    fclose(course_fp);
+    fclose(fp);
     printf("Course added successfully!\n");
 }
 
-void addPrerequisites(databaseType *db, String10 course_code) 
-{
-    FILE *prereq_fp = fopen(PREREQ_FILE, "a");
-    if (!prereq_fp) {
+void addPrerequisites(databaseType *db, char course_code[11]) {
+    if (db->prereq_count >= MAX_PREREQUISITES) {
+        fprintf(stderr, "ERROR: Maximum prerequisite capacity reached.\n");
+        return;
+    }
+
+    FILE *fp = fopen(PREREQ_FILE, "a");
+    if (!fp) {
         fprintf(stderr, "ERROR: Could not open %s for writing.\n", PREREQ_FILE);
         return;
     }
-    
-    printf("Enter prerequisites (Type Exit to stop the entry)\n");
+
+    printf("Enter prerequisites for %s (Type 'Exit' to stop):\n", course_code);
     char prereq_code[11];
-    int hasPrereq = 0;
-    while (db->prereq_count < MAX_PREREQUISITES) {
+    
+    while (1) {
         printf("Enter prerequisite course code: ");
         scanf("%10s", prereq_code);
         if (strcmp(prereq_code, "Exit") == 0) {
             break;
         }
-        if (strlen(prereq_code) == 0) {
-            continue; // Skip empty input
-        }
-        fprintf(prereq_fp, "%s %s\n", prereq_code, course_code);
+        fprintf(fp, "%s %s\n", prereq_code, course_code);
         db->prereq_count++;
-        hasPrereq = 1;
     }
-    
-    fclose(prereq_fp);
-    if (hasPrereq) {
-        printf("Prerequisites added successfully!\n");
-    } else {
-        printf("No prerequisites entered.\n");
-    }
+
+    fclose(fp);
+    printf("Prerequisites added successfully!\n");
 }
 
-void newCoursePrereq(databaseType *db) 
-{
-    char choice;
+void newCoursePrereq(databaseType *db) {
     addCourse(db);
-    printf("Does the course have a prerequisite? (y/n): ");
-    
+
+    char choice;
+    printf("Does the course have prerequisites? (y/n): ");
     do {
         scanf(" %c", &choice);
     } while (choice != 'y' && choice != 'n');
-    
+
     if (choice == 'y') {
         addPrerequisites(db, db->courses[db->course_count - 1].code);
     }
 }
 
-void addRoom(databaseType *db) 
-{
+void addRoom(databaseType *db) {
     if (db->room_count >= MAX_ROOMS) {
         fprintf(stderr, "ERROR: Maximum room capacity reached.\n");
         return;
     }
-    
-    FILE *room_fp = fopen(ROOMS_FILE, "a");
-    if (!room_fp) {
+
+    FILE *fp = fopen(ROOMS_FILE, "a");
+    if (!fp) {
         fprintf(stderr, "ERROR: Could not open %s for writing.\n", ROOMS_FILE);
         return;
     }
-    
-    roomSchedType new_room;
+
+    char room_number[11], day[11], time[31], course_code[11], section[11];
+    int occupancy;
+
     printf("Enter room number: ");
-    scanf("%10s", new_room.room_number);
+    scanf("%10s", room_number);
     printf("Enter day: ");
-    scanf("%10s", new_room.day);
+    scanf("%10s", day);
+    getchar(); // Consume newline
+
     printf("Enter time: ");
-    scanf("%30s", new_room.time);
+    fgets(time, sizeof(time), stdin);
+    time[strcspn(time, "\n")] = '\0'; // Remove newline
+
     printf("Enter course code: ");
-    scanf("%10s", new_room.course_code);
+    scanf("%10s", course_code);
     printf("Enter section: ");
-    scanf("%10s", new_room.section);
+    scanf("%10s", section);
     printf("Enter number of occupancy: ");
-    scanf("%d", &new_room.occupancy);
-    
-    db->rooms[db->room_count] = new_room;
+    scanf("%d", &occupancy);
+
+    // Writing room details to file
+    fprintf(fp, "%s %s %s %s %s %d\n", room_number, day, time, course_code, section, occupancy);
     db->room_count++;
-    
-    fprintf(room_fp, "%s %s %s %s %s %d\n", new_room.room_number, new_room.day, new_room.time, new_room.course_code, new_room.section, new_room.occupancy);
-    
-    fclose(room_fp);
+
+    fclose(fp);
     printf("Room added successfully!\n");
 }
 
