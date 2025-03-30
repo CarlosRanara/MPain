@@ -1103,17 +1103,18 @@ int studentHasTaken(Student *student, char *courseCode) {
 }
 
 /* For each prerequisite relation (if any) for the given course, ensure the student has taken it */
+
 int checkPrerequisite(Student *student, char *courseCode, Prereq prereqs[], int prereqCount) {
     int i;
     for (i = 0; i < prereqCount; i++) {
-        if(strcmp(prereqs[i].course, courseCode) == 0) {
-            if(!studentHasTaken(student, courseCode))
-                return 0;  /* missing a prerequisite */
+        if (strcmp(prereqs[i].course, courseCode) == 0) {
+            // Check if the student has taken the required prerequisite
+            if (!studentHasTaken(student, prereqs[i].prereq))
+                return 0;  /* missing the required prerequisite */
         }
     }
     return 1;
 }
-
 /* Checks whether a faculty course can be deleted (i.e. no student is enrolled in it) */
 int isFacultyCourseDeletable(Faculty *fac, Course *course, Student students[], int studentCount) {
     int i, j;
