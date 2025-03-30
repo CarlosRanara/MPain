@@ -1,5 +1,0 @@
-FACULTY 1
-Test Faculty
-F001 TEST 0
-COURSE1 A
-
