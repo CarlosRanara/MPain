@@ -134,14 +134,14 @@ int main() {
 */
 
 void loadStudentsFromFile(Student students[], int *studentCount) {
-    FILE *fp = fopen("students.txt", "r");
-    if (fp == NULL) {
-        printf("Error: students.txt not found.\n");
-    }
     int count = 0, dummy;
     char header[20];
     char temp[50];
 
+    FILE *fp = fopen("students.txt", "r");
+    if (fp == NULL) {
+        printf("Error: students.txt not found.\n");
+    } else {
     while (fscanf(fp, "%s", header) != EOF && count < MAX_STUDENTS) {
         if (strcmp(header, "STUDENT") == 0) {
             fscanf(fp, "%d", &dummy); // Skip student number
@@ -175,19 +175,22 @@ void loadStudentsFromFile(Student students[], int *studentCount) {
     }
     *studentCount = count;
     fclose(fp);
+    }
 }
 
 
 void loadFacultyFromFile(Faculty faculty[], int *facultyCount) {
-    FILE *fp = fopen("faculty.txt", "r");
-    if(fp == NULL) {
-        printf("Error: faculty.txt not found.\n");
-    }
+
     int count = 0;
     char header[20], token[50];
     int dummy;
     
-    while(fscanf(fp, "%s", header) != EOF && count < MAX_FACULTY) {
+
+    FILE *fp = fopen("faculty.txt", "r");
+    if(fp == NULL) {
+        printf("Error: faculty.txt not found.\n");
+    } else {
+        while(fscanf(fp, "%s", header) != EOF && count < MAX_FACULTY) {
         if(strcmp(header, "FACULTY") == 0) {
             fscanf(fp, "%d", &dummy);  // Skip faculty number
             fscanf(fp, " %[^\n]", faculty[count].name); // Read full name
@@ -217,6 +220,7 @@ void loadFacultyFromFile(Faculty faculty[], int *facultyCount) {
     }
     *facultyCount = count;
     fclose(fp);
+    }
 }
 /* 
    Expected courses.txt format (each line):
@@ -225,6 +229,9 @@ void loadFacultyFromFile(Faculty faculty[], int *facultyCount) {
 void loadCoursesFromFile(OfferedCourses *offered) {
     FILE *fp = fopen("courses.txt", "r");
     int count = 0;
+    if (fp == NULL) {
+        printf("Error: courses.txt not found.\n");
+    } else {
     while(count < MAX_COURSES &&
           fscanf(fp, "%s %s %d %s %s %s", 
                  offered->courses[count].code,
@@ -238,6 +245,7 @@ void loadCoursesFromFile(OfferedCourses *offered) {
     }
     offered->count = count;
     fclose(fp);
+    }
 }
 
 /*
@@ -247,14 +255,20 @@ void loadCoursesFromFile(OfferedCourses *offered) {
    ...
 */
 void loadPrereqsFromFile(Prereq prereqs[], int *prereqCount) {
-    FILE *fp = fopen("prerequisite.txt", "r");
+
     int count = 0;
+
+    FILE *fp = fopen("prerequisite.txt", "r");
+    if (fp == NULL) {
+        printf("Error: prerequisite.txt not found.\n");
+    } else {
     while(count < MAX_PREREQS &&
           fscanf(fp, "%s %s", prereqs[count].prereq, prereqs[count].course) != EOF) {
         count++;
     }
     *prereqCount = count;
     fclose(fp);
+    }
 }
 
 /*
@@ -262,8 +276,13 @@ void loadPrereqsFromFile(Prereq prereqs[], int *prereqCount) {
    G201 MW 0730-0900 CCPROG2 S11A 0
 */
 void loadRoomsFromFile(RoomAssignment rooms[], int *roomCount) {
-    FILE *fp = fopen("rooms.txt", "r");
+
     int count = 0;
+
+    FILE *fp = fopen("rooms.txt", "r");
+    if (fp == NULL) {
+        printf("Error: rooms.txt not found.\n");
+    } else {
     while(count < MAX_ROOMS &&
           fscanf(fp, "%s %s %s %s %s %d",
                  rooms[count].roomNo,
@@ -276,6 +295,7 @@ void loadRoomsFromFile(RoomAssignment rooms[], int *roomCount) {
     }
     *roomCount = count;
     fclose(fp);
+    }
 }
 
 /* --- Main Menu --- */
