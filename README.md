@@ -32,22 +32,6 @@ prerequisite.txt – Course prerequisite mapping
 
 rooms.txt – Room and schedule assignments
 
-📂 File Structure
-
-📁 Enrollment System
- ├── 📄 main.c        # Entry point of the program
- ├── 📄 student.c     # Student-related functions
- ├── 📄 faculty.c     # Faculty-related functions
- ├── 📄 assistant.c   # Academic assistant functions
- ├── 📄 file_handler.c# File reading/writing utilities
- ├── 📄 utils.c       # Helper functions
- ├── 📄 README.md     # Project documentation (you are here!)
- ├── 📄 students.txt  # Student records
- ├── 📄 faculty.txt   # Faculty records
- ├── 📄 courses.txt   # Course offerings
- ├── 📄 prerequisite.txt # Prerequisite courses
- ├── 📄 rooms.txt     # Room assignments
-
 🏗️ Installation & Compilation
 
 Clone the repository and navigate to the project directory:
