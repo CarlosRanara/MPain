@@ -132,47 +132,48 @@ int main() {
    Pre-condition: If file is missing, an error is printed and studentCount remains unchanged
 */
 void loadStudentsFromFile(Student students[], int *studentCount) {
-     int count = 0, dummy;
- char header[20];
- char temp[50];
- FILE *fp = fopen("students.txt", "r");
- if (fp == NULL) {
- printf("Error: students.txt not found.\n");
- } else {
- while (fscanf(fp, "%s", header) != EOF && count < MAX_STUDENTS) {
- if (strcmp(header, "STUDENT") == 0) {
- fscanf(fp, "%d", &dummy); // Skip student number
- fscanf(fp, " %[^\n]", students[count].name); // Read full name
- fscanf(fp, "%s %s", students[count].id, students[count].program); //
-Read ID and program
- /* Read subjects taken until marker "EAF" */
- students[count].subjectCount = 0;
- while (fscanf(fp, "%s", temp) != EOF && strcmp(temp, "EAF") != 0) {
- strcpy(students[count].subjectsTaken[students[count].subjectCount],
-temp);
- students[count].subjectCount++;
- }
- /* Read enrolled course information */
- if (fscanf(fp, "%s", temp) == EOF) break;
- if (strcmp(temp, "NONE") == 0) {
- students[count].enrolledCount = 0;
- } else {
- students[count].enrolledCount = 1;
- strcpy(students[count].enrolledCourses[0].code, temp);
- fscanf(fp, "%s", students[count].enrolledCourses[0].section);
- fscanf(fp, "%d", &students[count].enrolledCourses[0].units);
- fscanf(fp, "%s", students[count].enrolledCourses[0].day);
- fscanf(fp, "%s", students[count].enrolledCourses[0].time);
- fscanf(fp, "%s", students[count].enrolledCourses[0].room);
- fscanf(fp, " %[^\n]", students[count].enrolledCourses[0].faculty);
- }
- students[count].eafNumber = count + 1;
- count++;
- }
- }
- *studentCount = count;
- fclose(fp);
- }
+    int count = 0, dummy;
+    char header[20];
+    char temp[50];
+
+    FILE *fp = fopen("students.txt", "r");
+    if (fp == NULL) {
+        printf("Error: students.txt not found.\n");
+    } else {
+    while (fscanf(fp, "%s", header) != EOF && count < MAX_STUDENTS) {
+        if (strcmp(header, "STUDENT") == 0) {
+            fscanf(fp, "%d", &dummy); // Skip student number
+            fscanf(fp, " %[^\n]", students[count].name); // Read full name
+            fscanf(fp, "%s %s", students[count].id, students[count].program); // Read ID and program
+
+            /* Read subjects taken until marker "EAF" */
+            students[count].subjectCount = 0;
+            while (fscanf(fp, "%s", temp) != EOF && strcmp(temp, "EAF") != 0) {
+                strcpy(students[count].subjectsTaken[students[count].subjectCount], temp);
+                students[count].subjectCount++;
+            }
+
+            /* Read enrolled course information */
+            if (fscanf(fp, "%s", temp) == EOF) break;
+            if (strcmp(temp, "NONE") == 0) {
+                students[count].enrolledCount = 0;
+            } else {
+                students[count].enrolledCount = 1;
+                strcpy(students[count].enrolledCourses[0].code, temp);
+                fscanf(fp, "%s", students[count].enrolledCourses[0].section);
+                fscanf(fp, "%d", &students[count].enrolledCourses[0].units);
+                fscanf(fp, "%s", students[count].enrolledCourses[0].day);
+                fscanf(fp, "%s", students[count].enrolledCourses[0].time);
+                fscanf(fp, "%s", students[count].enrolledCourses[0].room);
+                fscanf(fp, " %[^\n]", students[count].enrolledCourses[0].faculty);
+            }
+            students[count].eafNumber = count + 1;
+            count++;
+        }
+    }
+    *studentCount = count;
+    fclose(fp);
+    }
 }
 
 /* loadFacultyFromFile loads faculty data from "faculty.txt".
